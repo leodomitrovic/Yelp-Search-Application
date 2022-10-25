@@ -42,7 +42,23 @@ class BusinessesRepository(application: Application) {
                     val image = businessjson.getString("image_url")
                     var distance = businessjson.getString("distance")
                     val location = businessjson.getJSONObject("location")
-                    val address = location.getString("address1") + ", " + location.getString("city") + ", " + location.getString("state") + ", " + location.getString("country")
+                    var addr = ""
+                    if (!location.isNull("address1")) {
+                        addr = location.getString("address1") + ", "
+                    }
+                    var city = ""
+                    if (!location.isNull("city")) {
+                        city = location.getString("city") + ", "
+                    }
+                    var state = ""
+                    if (!location.isNull("state")) {
+                        state = location.getString("state") + ", "
+                    }
+                    var country = ""
+                    if (!location.isNull("country")) {
+                        country = location.getString("country")
+                    }
+                    val address = addr + city  + state + country
                     val business = Business(id, name, image, "", "", address, "", rate, distance.toDouble())
                     dataset.add(business)
                     data.postValue(dataset)

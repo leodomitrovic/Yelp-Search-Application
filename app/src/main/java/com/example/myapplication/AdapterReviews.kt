@@ -12,7 +12,6 @@ import com.example.myapplication.databinding.RecyclerviewItemReviewBinding
 class AdapterReviews(private var activity: Activity, var reviews: ArrayList<Rating>): RecyclerView.Adapter<AdapterReviews.ViewHolder>() {
     private lateinit var binding: RecyclerviewItemReviewBinding
 
-
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
     }
 

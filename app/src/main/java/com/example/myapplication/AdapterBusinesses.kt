@@ -14,7 +14,6 @@ import com.example.myapplication.databinding.RecyclerviewIdemBusinessBinding
 class AdapterBusinesses(private var activity: Activity, var businesses: ArrayList<Business>): RecyclerView.Adapter<AdapterBusinesses.ViewHolder>() {
     private lateinit var binding: RecyclerviewIdemBusinessBinding
 
-
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
     }
 

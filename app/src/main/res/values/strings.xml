@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Yelp Assignment</string>
     <string name="name">Name</string>
     <string name="action_settings">Test</string>
     <string name="first_fragment_label">First</string>

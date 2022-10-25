@@ -32,35 +32,51 @@ class DetailsRepository(application: Application) {
                 val all = JSONObject(result)
                 var name = ""
                 try {
-                    name = all.getString("name")
+                    if (!all.isNull("name")) name = all.getString("name")
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
                 var image = ""
                 try {
-                    image = all.getString("image_url")
+                    if (!all.isNull("image_url")) image = all.getString("image_url")
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
                 var phone = ""
                 try {
-                    phone = all.getString("phone")
+                    if (!all.isNull("phone")) phone = all.getString("phone")
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
                 var rate = ""
                 try {
-                    rate = all.getString("rating")
+                    if (!all.isNull("rating")) rate = all.getString("rating")
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
                 var address = ""
+                var addr = ""
+                var city = ""
+                var state = ""
+                var country = ""
                 try {
                     val location = all.getJSONObject("location")
-                    address = location.getString("address1") + ", " + location.getString("city") + ", " + location.getString("state") + ", " + location.getString("country")
+                    if (!location.isNull("address1")) {
+                        addr = location.getString("address1") + ", "
+                    }
+                    if (!location.isNull("city")) {
+                        city = location.getString("city") + ", "
+                    }
+                    if (!location.isNull("state")) {
+                        state = location.getString("state") + ", "
+                    }
+                    if (!location.isNull("country")) {
+                        country = location.getString("country")
+                    }
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
+                address = addr + city + state + country
                 var categories = ""
                 try {
                     val categoriesList = all.getJSONArray("categories")

@@ -136,7 +136,6 @@ class DetailsRepository() {
         val client = OkHttpClient()
         val request = Request.Builder().url("https://api.yelp.com/v3/businesses/" + id + "/reviews")
             .header("Authorization", "Bearer 7zFBriJwVkajwWG8ITKbqUifiYZp6kCWDHpPJC3uintrcvQcSJl0VYdLQz9-uw-eapTYpfgS-MYM3QOItLuL_Mf2GFmV7zfZiPLpce4jec6E8WnsX8sWOodNHn9VY3Yx").build()
-        println(request.url)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
@@ -161,7 +160,6 @@ class DetailsRepository() {
                     data.postValue(dataset_reviews)
                     j++
                 }
-                println("Size " + size)
             }
         })
         return data

@@ -17,7 +17,6 @@ class BusinessesRepository() {
         val url1 = url.replace(" ", "+")
         val request = Request.Builder().url("https://api.yelp.com/v3/businesses/search?" + url1 + "&limit=20&sort_by=distance")
             .header("Authorization", "Bearer 7zFBriJwVkajwWG8ITKbqUifiYZp6kCWDHpPJC3uintrcvQcSJl0VYdLQz9-uw-eapTYpfgS-MYM3QOItLuL_Mf2GFmV7zfZiPLpce4jec6E8WnsX8sWOodNHn9VY3Yx").build()
-        println(request.url)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()

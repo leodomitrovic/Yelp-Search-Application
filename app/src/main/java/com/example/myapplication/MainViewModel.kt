@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
     lateinit var businesses: MutableLiveData<ArrayList<Business>>
-    private val repo = BusinessesRepository(application)
+    private val repo = BusinessesRepository()
 
     fun init(url: String) {
         businesses = repo.getBusinesses(url)

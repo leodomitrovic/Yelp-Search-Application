@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 class Rating(var name: String, var text: String, var rate: String, var time: String) {
+
     fun compare(b1: Rating, b2: Rating): Int {
         if (b1.time.compareTo(b2.time) < 0) return 1
         return 0

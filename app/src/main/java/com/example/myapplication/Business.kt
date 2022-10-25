@@ -4,13 +4,13 @@ class Business(var id: String, var name: String, var photo: String, var categori
 
     fun compare(b1: Business, b2: Business): Int {
         if (b1.distance == b2.distance) {
-            if (b1.rate.toDouble() > b2.rate.toDouble()) return 0
+            if (b1.rate.toDouble() < b2.rate.toDouble()) return 1
         }
-        return 1
+        return 0
     }
 
     fun sorting(businesses: ArrayList<Business>): ArrayList<Business> {
-        var i = 1
+        var i = 0
         var k = 0
         var j = 5
 
@@ -19,7 +19,7 @@ class Business(var id: String, var name: String, var photo: String, var categori
             j = i + 1
             while (j  < businesses.size)
             {
-                if (compare(businesses.get(k), businesses.get(j)) == 0) k = j
+                if (compare(businesses.get(k), businesses.get(j)) == 1) k = j
                 j++
             }
             val tmp = businesses.get(k)

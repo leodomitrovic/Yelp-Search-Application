@@ -28,46 +28,40 @@ class MainActivity : AppCompatActivity() {
         var model = ViewModelProvider(this).get(MainViewModel::class.java)
 
         search.setOnClickListener {
-            if (!term.text.isEmpty() && location.text.isEmpty()) {
+            if (term.text.isNotEmpty() && location.text.isEmpty()) {
                 Toast.makeText(this@MainActivity, "Location is required", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
             } else {
                 if (term.text.toString() != value_term || location.text.toString() != value_location) {
-                    rv = findViewById<RecyclerView>(R.id.rv2)
+                    rv = findViewById(R.id.rv2)
                     rv.setLayoutManager(LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false))
                     value_term = term.text.toString()
                     value_location = location.text.toString()
                     model.businesses = MutableLiveData()
                     model = ViewModelProvider(this).get(MainViewModel::class.java)
                     model.init("term=" + value_term + "&location=" + value_location)
-                    rv.removeAllViews()
                     if (ab != null) {
-                        rv.removeAllViewsInLayout()
-                        ab!!.notifyDataSetChanged()
-                        ab!!.businesses = ArrayList(0)
-                        ab = null
-                    }
-                }
-
-                val businessesObserver: Observer<ArrayList<Business>> = object : Observer<ArrayList<Business>> {
-                    override fun onChanged(businesses: ArrayList<Business>) {
-                        if (businesses.size < 20) return
-                        if (businesses != null && ab != null) {
-                            rv.removeAllViews()
-                            rv.removeAllViewsInLayout()
-                            var i = 0
-                            while (i < ab!!.businesses.size) {
-                                ab!!.businesses.removeAt(i)
-                                ab!!.notifyItemRemoved(i)
-                            }
-                            ab!!.notifyItemRangeChanged(0, 0)
-                            ab!!.notifyDataSetChanged()
-                            return
+                        var i = 0
+                        while (i < ab!!.businesses.size) {
+                            ab!!.businesses.removeAt(i)
+                            ab!!.notifyItemRemoved(i)
                         }
-                        ab = AdapterBusinesses(this@MainActivity, businesses.get(0).sorting(businesses))
-                        rv!!.adapter = ab
                     }
+
+                    val businessesObserver: Observer<ArrayList<Business>> = object : Observer<ArrayList<Business>> {
+                        override fun onChanged(businesses: ArrayList<Business>) {
+                            if (businesses.size < 20) return
+                            if(ab == null) {
+                                ab = AdapterBusinesses(this@MainActivity, businesses.get(0).sorting(businesses))
+                                rv!!.adapter = ab
+                            }
+                            ab!!.businesses = businesses
+                            ab!!.notifyDataSetChanged()
+                            rv!!.adapter = ab
+                        }
+                    }
+                    model.getBusinesses().observe(this, businessesObserver)
                 }
-                model.getBusinesses().observe(this, businessesObserver)
             }
         }
     }

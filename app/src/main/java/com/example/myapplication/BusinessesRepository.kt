@@ -1,14 +1,14 @@
 package com.example.myapplication
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import okhttp3.*
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
-class BusinessesRepository(application: Application) {
+class BusinessesRepository() {
     var dataset = ArrayList<Business>()
 
     fun getBusinesses(url: String): MutableLiveData<ArrayList<Business>> {
@@ -34,31 +34,74 @@ class BusinessesRepository(application: Application) {
                 while (j < size) {
                     val businessjson = all.getJSONObject(j)
                     var name = ""
-                    if (!businessjson.getString("name").equals("")) {
-                        name = businessjson.getString("name")
+                    try {
+                        if (!businessjson.isNull("name")) name = businessjson.getString("name")
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                    val id = businessjson.getString("id")
-                    val rate = businessjson.getString("rating")
-                    val image = businessjson.getString("image_url")
-                    var distance = businessjson.getString("distance")
-                    val location = businessjson.getJSONObject("location")
-                    var addr = ""
-                    if (!location.isNull("address1")) {
-                        addr = location.getString("address1") + ", "
+                    var id = ""
+                    try {
+                        if (!businessjson.isNull("id")) id = businessjson.getString("id")
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                    var city = ""
-                    if (!location.isNull("city")) {
-                        city = location.getString("city") + ", "
+                    var rate = ""
+                    try {
+                        if (!businessjson.isNull("rating")) rate = businessjson.getString("rating")
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                    var state = ""
-                    if (!location.isNull("state")) {
-                        state = location.getString("state") + ", "
+                    var image = ""
+                    try {
+                        if (!businessjson.isNull("image_url")) image = businessjson.getString("image_url")
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                    var country = ""
-                    if (!location.isNull("country")) {
-                        country = location.getString("country")
+                    var distance = ""
+                    try {
+                        if (!businessjson.isNull("distance")) distance = businessjson.getString("distance")
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                    val address = addr + city  + state + country
+                    var address = ""
+                    try {
+                        val location = businessjson.getJSONObject("location")
+                        var addr = ""
+                        try {
+                            if (!location.isNull("address1")) {
+                                addr = location.getString("address1") + ", "
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                        var city = ""
+                        try {
+                            if (!location.isNull("city")) {
+                                city = location.getString("city") + ", "
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                        var state = ""
+                        try {
+                            if (!location.isNull("state")) {
+                                state = location.getString("state") + ", "
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                        var country = ""
+                        try {
+                            if (!location.isNull("country")) {
+                                country = location.getString("country")
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                        address = addr + city  + state + country
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
                     val business = Business(id, name, image, "", "", address, "", rate, distance.toDouble())
                     dataset.add(business)
                     data.postValue(dataset)

@@ -41,6 +41,8 @@ class DetailsActivity : AppCompatActivity() {
                         reviews1 = reviews[0].sorting(reviews)
                     }
                     av!!.reviews = reviews1
+                    av!!.notifyDataSetChanged()
+                    rv!!.adapter = av
                     return
                 }
 

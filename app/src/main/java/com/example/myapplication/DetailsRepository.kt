@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import okhttp3.*
 import org.json.JSONException
@@ -10,7 +9,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.text.StringBuilder
 
-class DetailsRepository(application: Application) {
+class DetailsRepository() {
     var dataset = Business("", "", "", "", "", "", "", "", 0.0)
     var dataset_reviews = ArrayList<Rating>()
 
@@ -55,28 +54,44 @@ class DetailsRepository(application: Application) {
                     e.printStackTrace()
                 }
                 var address = ""
-                var addr = ""
-                var city = ""
-                var state = ""
-                var country = ""
                 try {
                     val location = all.getJSONObject("location")
-                    if (!location.isNull("address1")) {
-                        addr = location.getString("address1") + ", "
+                    var addr = ""
+                    try {
+                        if (!location.isNull("address1")) {
+                            addr = location.getString("address1") + ", "
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                    if (!location.isNull("city")) {
-                        city = location.getString("city") + ", "
+                    var city = ""
+                    try {
+                        if (!location.isNull("city")) {
+                            city = location.getString("city") + ", "
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                    if (!location.isNull("state")) {
-                        state = location.getString("state") + ", "
+                    var state = ""
+                    try {
+                        if (!location.isNull("state")) {
+                            state = location.getString("state") + ", "
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                    if (!location.isNull("country")) {
-                        country = location.getString("country")
+                    var country = ""
+                    try {
+                        if (!location.isNull("country")) {
+                            country = location.getString("country")
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
+                    address = addr + city + state + country
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
-                address = addr + city + state + country
                 var categories = ""
                 try {
                     val categoriesList = all.getJSONArray("categories")

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 
 class DetailsViewModel(application: Application): AndroidViewModel(application) {
     lateinit var businesses: MutableLiveData<Business>
-    private val repo = DetailsRepository(application)
+    private val repo = DetailsRepository()
     lateinit var reviews: MutableLiveData<ArrayList<Rating>>
 
     fun init(id: String) {
